@@ -64,6 +64,7 @@
       background-color: #35A29F;
       /* height: 60px; */
       /* width: 120px; */
+      transition: .3s ease;
       border-radius: 10px;
       padding: 5px 10px;
       color: white;
@@ -84,7 +85,7 @@
 }
   }
 
-    @media (max-width: 500px) {
+    @media (max-width: 400px) {
       
         .weather-container {
         display: flex;
@@ -100,11 +101,8 @@
         overflow: hidden;
         border-radius: 20px;
         padding: 1em;
+         text-align: center;
 
-        /* display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column; */
     }
     .weather-search {
         display: flex;
@@ -134,13 +132,14 @@
         margin-top: 20px;
     }
 
-    .weather-details .weather-temperature, .weather-humidity, .weather-wind {
+    .weather-details .weather-temperature, .weather-humidity, .weather-wind, i {
         background-color: #35A29F;
         /* height: 60px; */
         /* width: 120px; */
         border-radius: 10px;
-        padding: 5px 10px;
+        transition: .3s ease;
         color: white;
+        font-size: 10px;
     }
 
     .temp {
@@ -155,10 +154,11 @@
 
     .input-outline-white {
     border-bottom-color: white; 
-}
-.footer {
+    }
+    .footer {
     font-size: 12px;
-}
+    transition: .3s ease
+    }
     }
 
     .footer {
