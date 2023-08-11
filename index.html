@@ -11,6 +11,79 @@
         font-family: 'Poppins', sans-serif;
     }
 
+    @media (max-width: 1550px) {
+      
+      .weather-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      height: 100vh;
+  }
+  
+  .weather-box {
+      /* background-color: rgb(141, 235, 235); */
+      height: 38px;
+      overflow: hidden;
+      border-radius: 20px;
+      padding: 1em;
+
+      /* display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column; */
+  }
+  .weather-search {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      align-items: center;
+  }
+
+  .weather-search input, button {
+      padding: .7em;
+  }
+  .weather-search input {
+      outline: none;
+      border: 0;
+      border-bottom: 1px solid black;
+  }
+  .weather-search button {
+      background-color: #35A29F;
+      border: 0;
+      color: white;
+  }
+  .weather-details {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 20px;
+  }
+
+  .weather-details .weather-temperature, .weather-humidity, .weather-wind {
+      background-color: #35A29F;
+      /* height: 60px; */
+      /* width: 120px; */
+      border-radius: 10px;
+      padding: 5px 10px;
+      color: white;
+  }
+
+  .temp {
+      display: flex;
+      gap: 10px;
+  }
+
+  .input-active::placeholder {
+  color: white; /* Set the desired placeholder text color */
+  
+  }
+
+  .input-outline-white {
+  border-bottom-color: white; 
+}
+  }
+
     @media (max-width: 500px) {
       
         .weather-container {
@@ -100,7 +173,7 @@
                         <i class="fa-solid fa-temperature-low fa-bounce"></i>
                    </div>
 
-                    <div style="text-align: center;" id="temp">Temperature</div>
+                    <div style="text-align: center;" id="temp"></div>
                 </div>
                 <div class="weather-humidity">
                     <div class="temp" style="display: flex; align-items: center; justify-content: center;">
@@ -108,7 +181,7 @@
                         <i class="fa-solid fa-droplet fa-bounce"></i>
                    </div>
 
-                    <div style="text-align: center;" id="humid">Humidity</div>
+                    <div style="text-align: center;" id="humid"></div>
                 </div>
                 <div class="weather-wind">
                     <div class="temp" style="display: flex; align-items: center; justify-content: center;">
