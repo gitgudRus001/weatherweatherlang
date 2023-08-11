@@ -125,6 +125,7 @@
         background-color: #35A29F;
         border: 0;
         color: white;
+        border-radius: 5px;
     }
     .weather-details {
         display: flex;
@@ -156,13 +157,22 @@
     border-bottom-color: white; 
 }
     }
+
+    .footer {
+        position: fixed;
+        bottom: 0;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+
 </style>
 <body>
     <div class="weather-container">
         <div class="weather-box" id="weatherBox">
             <div class="weather-search">
                 <input id="location-input" type="text" placeholder="Enter your location...">
-                <button onclick="showDetails(); getWeatherUpdate()">Search</button>
+                <button onclick="showDetails(); getWeatherUpdate()" style="border-radius: 10px;">Search</button>
                 
             </div>
 
@@ -197,6 +207,9 @@
         <div id="errorMessage"></div>
     </div>
 
+
+    <div class="footer">Developed by Rus © 2023</div>
+
     
     
     <script>
@@ -205,7 +218,7 @@
             const locationInput = document.getElementById("location-input");
             const err = document.getElementById('errorMessage');
 
-            weatherBox.style.height = '200px';
+            weatherBox.style.height = '150px';
             weatherBox.style.transition = 'height .3s ease'
             weatherBox.style.backgroundColor = '#071952'
 
@@ -241,10 +254,20 @@
             const API_KEY = '139ccc3b9d7780e8775390bbdfe63292';
             const API_URL = `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=metric&appid=${API_KEY}`;
 
-            fetch(API_URL)
+            if (location === '') {
+                err.textContent = 'Please enter a location.'
+                temp.innerHTML = ''
+                humid.innerHTML = ''
+                wind.innerHTML = ''
+            }
+
+            else {
+                // showDetails()
+
+                fetch(API_URL)
                 .then(response => response.json())
                 .then(data => {
-                    console.log(data)
+                    // console.log(data)
                     if(data === '404' || data.message) {
                         err.innerHTML = 'Location not found.';
                         temp.innerHTML = 'Error...'
@@ -263,10 +286,12 @@
 
                 })
                 .catch(err => {
-                    console.log(err);
+                    // console.log(err);
                     err.innerHTML = '<p>Error fetching weather data. Please try again later.</p>';
                 })
+            }
         }
+        
     </script>
     <script src="https://kit.fontawesome.com/3f1e7d1a83.js" crossorigin="anonymous"></script>
 </body>
