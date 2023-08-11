@@ -1,17 +1,200 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Weather Search</title>
-  <link rel="stylesheet" href="input.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
 </head>
-<body>
-  <div>
-    <h1>Weather Search</h1>
-    <input type="text" id="locationInput" placeholder="Enter a location">
-    <button onclick="getWeather()">Search</button>
-    <div id="weatherInfo"></div>
-  </div>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@700&family=Luckiest+Guy&family=Nunito+Sans:wght@800&family=Poppins:wght@200;300;400&family=Work+Sans&display=swap');
+    body {
+        font-family: 'Poppins', sans-serif;
+    }
 
-  <script src="index.js"></script>
+    @media (max-width: 500px) {
+      
+        .weather-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        height: 100vh;
+    }
+    
+    .weather-box {
+        /* background-color: rgb(141, 235, 235); */
+        height: 38px;
+        overflow: hidden;
+        border-radius: 20px;
+        padding: 1em;
+
+        /* display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column; */
+    }
+    .weather-search {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .weather-search input, button {
+        padding: .7em;
+    }
+    .weather-search input {
+        outline: none;
+        border: 0;
+        border-bottom: 1px solid black;
+    }
+    .weather-search button {
+        background-color: #35A29F;
+        border: 0;
+        color: white;
+    }
+    .weather-details {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 20px;
+    }
+
+    .weather-details .weather-temperature, .weather-humidity, .weather-wind {
+        background-color: #35A29F;
+        /* height: 60px; */
+        /* width: 120px; */
+        border-radius: 10px;
+        padding: 5px 10px;
+        color: white;
+    }
+
+    .temp {
+        display: flex;
+        gap: 10px;
+    }
+
+    .input-active::placeholder {
+    color: white; /* Set the desired placeholder text color */
+    
+    }
+
+    .input-outline-white {
+    border-bottom-color: white; 
+}
+    }
+</style>
+<body>
+    <div class="weather-container">
+        <div class="weather-box" id="weatherBox">
+            <div class="weather-search">
+                <input id="location-input" type="text" placeholder="Enter your location...">
+                <button onclick="showDetails(); getWeatherUpdate()">Search</button>
+                
+            </div>
+
+            <div class="weather-details">
+                <div class="weather-temperature">
+                   <div class="temp" style="display: flex; align-items: center; justify-content: center;">
+                        <p>Temperature</p>
+                        <i class="fa-solid fa-temperature-low fa-bounce"></i>
+                   </div>
+
+                    <div style="text-align: center;" id="temp">Temperature</div>
+                </div>
+                <div class="weather-humidity">
+                    <div class="temp" style="display: flex; align-items: center; justify-content: center;">
+                        <p>Humidity</p>
+                        <i class="fa-solid fa-droplet fa-bounce"></i>
+                   </div>
+
+                    <div style="text-align: center;" id="humid">Humidity</div>
+                </div>
+                <div class="weather-wind">
+                    <div class="temp" style="display: flex; align-items: center; justify-content: center;">
+                        <p>Wind</p>
+                        <i class="fa-solid fa-wind fa-bounce"></i>
+                   </div>
+
+                    <div style="text-align: center;" id="wind"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="errorMessage"></div>
+    </div>
+
+    
+    
+    <script>
+        function showDetails (){
+            const weatherBox = document.getElementById("weatherBox");
+            const locationInput = document.getElementById("location-input");
+            const err = document.getElementById('errorMessage');
+
+            weatherBox.style.height = '200px';
+            weatherBox.style.transition = 'height .3s ease'
+            weatherBox.style.backgroundColor = '#071952'
+
+            locationInput.style.backgroundColor = '#071952'
+            locationInput.style.color = 'white'
+            locationInput.classList.add('input-active'); 
+            locationInput.classList.add('input-outline-white');
+
+            setTimeout( () => {
+                weatherBox.style.height = '38px';
+                weatherBox.style.transition = 'height .3s ease'
+                weatherBox.style.backgroundColor = 'white'
+
+                locationInput.style.backgroundColor = 'white'
+                locationInput.style.color = 'black'
+                locationInput.classList.remove('input-active'); 
+                locationInput.classList.remove('input-outline-white');
+
+                locationInput.style.backgroundColor = 'white'
+                err.innerHTML = ''
+
+            }, 5000)
+        }
+        function getWeatherUpdate (){
+            const locationInput = document.getElementById("location-input");
+            const location = locationInput.value;
+            const err = document.getElementById('errorMessage');
+
+            const temp = document.getElementById('temp');
+            const humid = document.getElementById('humid');
+            const wind = document.getElementById('wind');
+
+            const API_KEY = '139ccc3b9d7780e8775390bbdfe63292';
+            const API_URL = `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=metric&appid=${API_KEY}`;
+
+            fetch(API_URL)
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data)
+                    if(data === '404' || data.message) {
+                        err.innerHTML = 'Location not found.';
+                        temp.innerHTML = 'Error...'
+                        humid.innerHTML = 'Error...'
+                        wind.innerHTML = 'Error...'
+                    } else {
+                        const temperature = data.main.temp;
+                        const humidity = data.main.humidity;
+                        const windEl = data.wind.speed;
+
+                        temp.textContent = `${temperature}°C`;
+                        humid.textContent = `${humidity}%`;
+                        wind.textContent = `${windEl}km/h`;
+
+                    }
+
+                })
+                .catch(err => {
+                    console.log(err);
+                    err.innerHTML = '<p>Error fetching weather data. Please try again later.</p>';
+                })
+        }
+    </script>
+    <script src="https://kit.fontawesome.com/3f1e7d1a83.js" crossorigin="anonymous"></script>
 </body>
 </html>
