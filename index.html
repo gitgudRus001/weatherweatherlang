@@ -168,9 +168,15 @@
         transform: translate(-50%, -50%);
     }
 
-
+    .time {
+        position: fixed;
+        top: 100px;
+        left: 50%;
+        transform: translate(-50%);
+    }
 </style>
 <body>
+    <div class="time" id="realTime">123</div>
     <div class="weather-container">
         <div class="weather-box" id="weatherBox">
             <div class="weather-search">
@@ -258,7 +264,7 @@
             const API_URL = `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=metric&appid=${API_KEY}`;
 
             if (location === '') {
-                err.textContent = 'Please enter a location.'
+                err.innerHTML = `<p style="color: red;"> Please enter a location. </p>`
                 temp.innerHTML = ''
                 humid.innerHTML = ''
                 wind.innerHTML = ''
@@ -294,6 +300,28 @@
                 })
             }
         }
+
+        function getTime () {
+            setInterval(() => {
+
+            const timer = document.getElementById('realTime');
+            let date = new Date();
+            let hours = date.getHours();
+            let minutes = date.getMinutes();
+            let seconds = date.getSeconds();
+
+            let ampm = hours >= 12 ? 'PM' : 'AM'; // Determine AM or PM
+            hours = hours % 12 || 12; // Convert to 12-hour format
+
+            let hr = hours < 10 ? '0' + hours: hours
+            let min = minutes < 10 ? '0' + minutes : minutes
+            let sec = seconds < 10 ? '0' + seconds: seconds
+
+            timer.innerHTML = `${hr}: ${min}: ${sec} ${ampm}`
+            }, 1000)
+        }
+
+        getTime()
         
     </script>
     <script src="https://kit.fontawesome.com/3f1e7d1a83.js" crossorigin="anonymous"></script>
